@@ -1,0 +1,69 @@
+{
+  "name": "feather-backend",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "",
+  "private": true,
+  "keywords": [
+    "feathers"
+  ],
+  "author": {},
+  "contributors": [],
+  "bugs": {},
+  "engines": {
+    "node": ">= 20.17.0"
+  },
+  "feathers": {
+    "language": "js",
+    "packager": "npm",
+    "database": "other",
+    "framework": "koa",
+    "transports": [
+      "rest",
+      "websockets"
+    ],
+    "schema": "typebox"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "files": [
+    "lib/client.js",
+    "lib/**/*.d.ts",
+    "lib/**/*.shared.js"
+  ],
+  "main": "src/client",
+  "type": "module",
+  "scripts": {
+    "start": "node src",
+    "dev": "nodemon src/",
+    "prettier": "npx prettier \"**/*.js\" --write",
+    "mocha": "cross-env NODE_ENV=test mocha test/ --recursive --exit",
+    "test": "npm run mocha",
+    "bundle:client": "npm pack --pack-destination ./public"
+  },
+  "dependencies": {
+    "@feathersjs/adapter-commons": "^5.0.33",
+    "@feathersjs/authentication": "^5.0.33",
+    "@feathersjs/authentication-client": "^5.0.33",
+    "@feathersjs/configuration": "^5.0.33",
+    "@feathersjs/errors": "^5.0.33",
+    "@feathersjs/feathers": "^5.0.33",
+    "@feathersjs/koa": "^5.0.33",
+    "@feathersjs/schema": "^5.0.33",
+    "@feathersjs/socketio": "^5.0.33",
+    "@feathersjs/transport-commons": "^5.0.33",
+    "@feathersjs/typebox": "^5.0.33",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@feathersjs/cli": "^5.0.33",
+    "@feathersjs/rest-client": "^5.0.33",
+    "axios": "^1.8.3",
+    "cross-env": "^7.0.3",
+    "mocha": "^11.1.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
+  }
+}
