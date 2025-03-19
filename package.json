@@ -55,6 +55,8 @@
     "@feathersjs/socketio": "^5.0.33",
     "@feathersjs/transport-commons": "^5.0.33",
     "@feathersjs/typebox": "^5.0.33",
+    "dotenv": "^16.4.7",
+    "raw-body": "^3.0.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {

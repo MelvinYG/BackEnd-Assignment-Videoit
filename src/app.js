@@ -3,6 +3,9 @@ import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import { koa, rest, bodyParser, errorHandler, parseAuthentication, cors, serveStatic } from '@feathersjs/koa'
 import socketio from '@feathersjs/socketio'
+import rawBody from 'raw-body'
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { configurationValidator } from './configuration.js'
 import { logError } from './hooks/log-error.js'
@@ -19,7 +22,30 @@ app.use(cors())
 app.use(serveStatic(app.get('public')))
 app.use(errorHandler())
 app.use(parseAuthentication())
-app.use(bodyParser())
+
+app.use(async (ctx, next) => {
+  if (ctx.method === 'POST' && ctx.path === '/shopify-webhook') {
+    ctx.feathers = ctx.feathers || {}
+
+    try {
+      ctx.feathers.rawBody = await rawBody(ctx.req, {
+        encoding: 'utf-8'
+      })
+    } catch (err) {
+      console.error('Failed to read raw request body:', err)
+      ctx.throw(400, 'Invalid request body')
+    }
+  }
+  await next()
+})
+
+app.use(async (ctx, next) => {
+  if (ctx.method !== 'POST' || ctx.path !== '/shopify-webhook') {
+    await bodyParser()(ctx, next)
+  } else {
+    await next()
+  }
+})
 
 // Configure services and transports
 app.configure(rest())
@@ -42,7 +68,8 @@ app.hooks({
   after: {},
   error: {}
 })
-// Register application setup and teardown hooks here
+
+// Register application setup and teardown hooks
 app.hooks({
   setup: [],
   teardown: []

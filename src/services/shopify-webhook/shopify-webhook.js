@@ -1,5 +1,6 @@
 import { ShopifyWebhookService, getOptions } from './shopify-webhook.class.js'
 import { shopifyWebhookPath, shopifyWebhookMethods } from './shopify-webhook.shared.js'
+import { validateShopifyHMAC } from '../../hooks/validateHmac.js';
 
 export * from './shopify-webhook.class.js'
 
@@ -19,7 +20,7 @@ export const shopifyWebhook = app => {
     },
     before: {
       all: [],
-      create: [],
+      create: [validateShopifyHMAC],
     },
     after: {
       all: []
